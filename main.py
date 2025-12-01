@@ -9,7 +9,7 @@ class ResponseModifier(Star):
     def __init__(self, context: Context):
         super().__init__(context)
     
-    @filter.on_llm_response()
+    @filter.on_llm_response(priority=100)     # 设置高优先级，确保在long_term_memory（默认优先级0）之前执行
     async def modify_response(self, event: AstrMessageEvent, resp: LLMResponse):
         # 劫持LLM回复并在开头插入"【预先劫持】"
         if resp.completion_text:
